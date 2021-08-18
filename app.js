@@ -6,9 +6,14 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
 
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
+const { URLSearchParams } = require('url');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -46,11 +51,24 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
+
+app.get('/fakeUser', async (req, res) => {
+    const user = new User({ email: 'juliaaa@gmail.com', username: 'juliaaa' });
+    const newUser = await User.register(user, 'chicken');
+    res.send(newUser);
+});
 
 
 app.use('/campgrounds', campgrounds);
