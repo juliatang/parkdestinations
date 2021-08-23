@@ -45,7 +45,7 @@ module.exports.renderEditForm = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
-        req.flash('error', 'Cannot find that campground!');
+        req.flash('error', 'Cannot find that amusement park!');
         return res.redirect('/parks');
     }
     res.render('parks/edit', { campground });
@@ -63,13 +63,13 @@ module.exports.updateCampground = async (req, res) => {
         }
         await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
     }
-    req.flash('success', 'Successfully updated campground!');
+    req.flash('success', 'Successfully updated amusement park!');
     res.redirect(`/parks/${campground._id}`);
 }
 
 module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted campground');
+    req.flash('success', 'Successfully deleted amusement park');
     res.redirect('/parks');
 }
