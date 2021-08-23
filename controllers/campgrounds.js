@@ -6,11 +6,11 @@ const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds });
+    res.render('parks/index', { campgrounds });
 }
 
 module.exports.renderNewForm = (req, res) => {
-    res.render('campgrounds/new');
+    res.render('parks/new');
 }
 
 module.exports.createCampground = async (req, res, next) => {
@@ -24,7 +24,7 @@ module.exports.createCampground = async (req, res, next) => {
     campground.author = req.user._id;
     await campground.save();
     req.flash('success', 'Successfully added a new amusement park!');
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`/parks/${campground._id}`);
 }
 
 module.exports.showCampground = async (req, res) => {
@@ -36,9 +36,9 @@ module.exports.showCampground = async (req, res) => {
     }).populate('author');
     if (!campground) {
         req.flash('error', 'Cannot find that amusement park!');
-        return res.redirect('/campgrounds');
+        return res.redirect('/parks');
     }
-    res.render('campgrounds/show', { campground });
+    res.render('parks/show', { campground });
 }
 
 module.exports.renderEditForm = async (req, res) => {

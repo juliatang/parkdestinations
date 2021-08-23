@@ -1,0 +1,61 @@
+<% layout('layouts/boilerplate') %>
+<div id="cluster-map" class="mb-3"></div>
+<h1>All Amusement Parks</h1>
+<!-- <div>
+    <a href="/campgrounds/new">Add Campground</a>
+</div> -->
+<% for (let campground of campgrounds) { %>
+<div class="card mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <% if (campground.images.length) { %>
+            <img class="img-fluid" alt="" src="<%=campground.images[0].url%>">
+            <% } else { %>
+            <img class="img-fluid" alt=""
+                src="https://res.cloudinary.com/dopkp880a/image/upload/v1629565622/YelpCamp/nuta10vcglqbnvvhblqo.jpg">
+            <% } %>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><%= campground.title %></h5>
+                <p class="card-text"><%= campground.description %></p>
+                <p class="card-text">
+                    <small class="text-muted"><%= campground.location %></small>
+                </p>
+                <a class="btn btn-primary" href="/parks/<%= campground._id %> ">View <%= campground.title%> </a>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<script>
+    const mapToken = '<%=process.env.MAPBOX_TOKEN%>';
+    const campgrounds = { features: JSON.parse('<%-JSON.stringify(campgrounds)%>') };
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>
+
+const campgrounds = { features: JSON.parse(
+'
+[
+{"geometry":
+{"coordinates":[-86.9544,33.4018],
+"type":"Point"},
+"reviews":[],
+"_id":"6123b4c6969c880016d99830",
+"title":"Alabama Splash Adventure",
+"location":"Bessemer, Alabama",
+"price":37.99,
+"description":"Alabama Splash Adventure is a water park and amusement park, located off Interstate 20/59 in Bessemer,
+Alabama, just west of Birmingham and east of Tuscaloosa.",
+"images":[{"_id":"6123b4c6969c880016d99831","url":"https://res.cloudinary.com/dopkp880a/image/upload/v1629729989/YelpCamp/r9fthmvg9kkyzdsvul2p.jpg","filename":"YelpCamp/r9fthmvg9kkyzdsvul2p"}],
+"author":"6122c8ba03ff960d30b2efdc",
+"__v":1,
+"properties":{"popUpMarkup":"<strong><a href=/parks/6123b4c6969c880016d99830>Alabama Splash Adventure</a>
+    <strong"},"id":"6123b4c6969c880016d99830"},{"geometry":{"coordinates":[-112.0773,33.4486],"type":"Point"},"reviews":[],"_id":"6123b6b1636db10016c70b62","title":"Castles
+        N' Coasters","location":"Phoenix, Arizona","price":40,"description":"An amusement park that features four
+        outdoor 18-hole miniature golf courses, several rides, and an indoor video game
+        arcade.","images":[{"_id":"6123b6b1636db10016c70b63","url":"https://res.cloudinary.com/dopkp880a/image/upload/v1629730480/YelpCamp/zh2lkpfrpnobfilghupb.jpg","filename":"YelpCamp/zh2lkpfrpnobfilghupb"}],"author":"6122c8ba03ff960d30b2efdc","__v":0,"properties":{"popUpMarkup":"<strong>
+        <a href=/parks/6123b6b1636db10016c70b62>Castles N' Coasters</a>
+        <strong"},"id":"6123b6b1636db10016c70b62"}]') };
