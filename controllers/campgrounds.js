@@ -23,7 +23,7 @@ module.exports.createCampground = async (req, res, next) => {
     campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.author = req.user._id;
     await campground.save();
-    req.flash('success', 'Successfully made a new campground!');
+    req.flash('success', 'Successfully added a new amusement park!');
     res.redirect(`/campgrounds/${campground._id}`);
 }
 
@@ -35,7 +35,7 @@ module.exports.showCampground = async (req, res) => {
         }
     }).populate('author');
     if (!campground) {
-        req.flash('error', 'Cannot find that campground!');
+        req.flash('error', 'Cannot find that amusement park!');
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
