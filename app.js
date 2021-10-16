@@ -154,6 +154,10 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/map', (req, res) => {
+    res.render('map');
+});
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
 })
